@@ -4,7 +4,6 @@ import '../../user_authentication/login_page.dart';
 import '../../user_prof_mang/user_prof_mang_view/emplo_prof_view.dart';
 import 'feedback_page.dart';
 import 'payment_history_page.dart';
-import 'user_payment_history/uer_payment_view/user_payment_view.dart';
 import 'waste_submit_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -61,11 +60,7 @@ class _HomePageState extends State<HomePage> {
       ));
     }
     if (index == 2) {
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return const PaymentDetailsScreen();
-        },
-      ));
+      showAlertBox();
     }
   }
 
@@ -124,14 +119,26 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    List<Map<String, dynamic>> homeList = [
-      {'name': 'Plastic', 'kg': '10 kg'},
-      {'name': 'Non-Biodegradable Wastes', 'kg': '10 kg'},
-      {'name': 'Hazardous Waste', 'kg': '10 kg'},
-      {'name': 'E-Waste', 'kg': '10 kg'},
-      {'name': 'Sanitary Waste', 'kg': '10 kg'},
-      {'name': 'Other Waste', 'kg': '10 kg'},
+    final List<Map<String, dynamic>> homeList = [
+      {'image': 'assets/images/104850.jpg', 'name': 'PLASTIC'},
+      {
+        'image':
+            'assets/images/26764821_2108.q705.014.S.m005.c10.trash garbage illustration.jpg',
+        'name': 'Non-Biodegradable Wastes'
+      },
+      {'image': 'assets/images/glass.JPG', 'name': 'Glass Waste'},
+      {'image': 'assets/images/171641033_10563467.jpg', 'name': 'E-Waste'},
+      {'image': 'assets/images/sanitarywa.JPG', 'name': 'Sanitary Waste'},
+      {'image': 'assets/images/9818695_47260.jpg', 'name': 'Other Waste'},
     ];
+    // List<Map<String, dynamic>> homeList = [
+    //   {'name': ' assets/videos/2865244-uhd_4096_2160_30fps.mp4', 'kg': '10 kg'},
+    //   {, 'kg': '10 kg'},
+    //   {'name': , 'kg': '10 kg'},
+    //   {'name': , 'kg': '10 kg'},
+    //   {'name': , 'kg': '10 kg'},
+    //   {'name': , 'kg': '10 kg'},
+    // ];
 
     return SafeArea(
       child: Scaffold(
@@ -254,15 +261,46 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.clean_hands_outlined,
-                                size: 40, color: Colors.green),
-                            const SizedBox(height: 8),
-                            Text(
+                            Container(
+                                height: 120,
+                                width: double.infinity, // Make it stretch
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 5,
+                                      spreadRadius: 2,
+                                    ),
+                                  ],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset(
+                                    list['image'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                )),
+                            const SizedBox(height: 5),
+                            Expanded(
+                                child: Text(
                               list['name'],
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
                               textAlign: TextAlign.center,
-                            ),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ))
+                            // const Icon(Icons.clean_hands_outlined,
+                            //     size: 40, color: Colors.green),
+                            // const SizedBox(height: 8),
+                            // Text(
+                            //   list,
+                            //   style: const TextStyle(
+                            //       fontWeight: FontWeight.bold, fontSize: 16),
+                            //   textAlign: TextAlign.center,
+                            // ),
                             // const SizedBox(height: 4),
                             // Text(
                             //   list['kg'],
@@ -319,7 +357,7 @@ class _HomePageState extends State<HomePage> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.history), label: 'View History'),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.logout_sharp), label: 'Payment History')
+                  icon: Icon(Icons.logout_sharp), label: 'Log Out')
             ]),
       ),
     );

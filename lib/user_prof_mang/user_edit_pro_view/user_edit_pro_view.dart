@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class EditEmployeeProfilePage extends StatefulWidget {
   final int userId;
@@ -37,6 +38,11 @@ class _EditEmployeeProfilePageState extends State<EditEmployeeProfilePage> {
     id = widget.userId;
     _fetchUserData();
   }
+
+  Future<bool> _hasInternet() async {
+  var connectivityResult = await Connectivity().checkConnectivity();
+  return connectivityResult != ConnectivityResult.none;
+}
 
   /// Fetch user profile data from the API
   Future<void> _fetchUserData() async {
@@ -151,7 +157,7 @@ class _EditEmployeeProfilePageState extends State<EditEmployeeProfilePage> {
       var response = await request.send();
       if (response.statusCode == 200) {
         showSuccess('Profile updated successfully');
-        Navigator.pop(context, true);
+        Navigator.pop(context,_profilePictureUrl);
       } else {
         showError('Update failed: ${await response.stream.bytesToString()}');
       }

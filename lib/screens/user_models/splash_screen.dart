@@ -27,9 +27,12 @@ class SplashScreenState extends State<SplashScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 133, 196, 136),
-              Color.fromARGB(255, 203, 243, 93),
-              Color(0xFFA5D6A7)
+              Color.fromARGB(255, 241, 215, 135),
+              Color.fromARGB(255, 204, 179, 104),
+              Color.fromARGB(255, 236, 136, 158),
+
+              Color.fromARGB(255, 204, 113, 133),
+              //Color(0xFFA5D6A7)
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -65,7 +68,7 @@ class SplashScreenState extends State<SplashScreen> {
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ).animate().fadeIn(duration: 3.seconds, curve: Curves.easeIn),
             ],

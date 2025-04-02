@@ -16,7 +16,7 @@ class OnboardingScreenState extends State<OnboardingScreen> {
 
   List<Map<String, String>> onboardingData = [
     {
-      "image": "assets/images/indro2.JPG",
+      "image": "assets/images/waste manage.jpeg",
       "title": "Smart Waste Management app",
       "description": "Schedule waste collection effortlessly.",
     },
@@ -64,9 +64,10 @@ class OnboardingScreenState extends State<OnboardingScreen> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 133, 196, 136),
-              Color.fromARGB(255, 203, 243, 93),
-              Color(0xFFA5D6A7)
+              Color.fromARGB(255, 241, 215, 135),
+              Color.fromARGB(255, 204, 179, 104),
+              Color.fromARGB(255, 236, 136, 158),
+              Color.fromARGB(255, 204, 113, 133),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

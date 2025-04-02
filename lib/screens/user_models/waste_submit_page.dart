@@ -86,6 +86,8 @@ class _WasteSubmitPageState extends State<WasteSubmitPage> {
       return;
     }
 
+   
+
     List<String> selectedCategoryNames = [];
     for (var categoryId in selectedCategories.keys) {
       final category = categories.firstWhere(

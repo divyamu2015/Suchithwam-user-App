@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   bool isPasswordVisible = false;
   String? data;
@@ -179,116 +180,132 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Column(
-                  children: [
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter Email or Phone';
-                        }
-                        bool isEmail = RegExp(
-                                r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-                            .hasMatch(value);
-                        bool isPhone = RegExp(r"^[0-9]{10}$").hasMatch(value);
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Email or Phone';
+                          }
+                          bool isEmail = RegExp(
+                                  r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+                              .hasMatch(value);
+                          bool isPhone = RegExp(r"^[0-9]{10}$").hasMatch(value);
 
-                        if (!isEmail && !isPhone) {
-                          return 'Enter a valid Email or Phone (10-digit number)';
-                        }
-                        return null;
-                      },
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        prefixIcon: Icon(
-                          Icons.person_outline_outlined,
-                          color: Color.fromARGB(255, 16, 82, 20),
-                        ),
-                        hintText: 'Email/Phone Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: passController,
-                      obscureText:
-                          !isPasswordVisible, // Toggle password visibility
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: 'Password',
-                        prefixIcon: const Icon(
-                          Icons.lock_outline,
-                          color: Color.fromARGB(255, 16, 82, 20),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                          if (!isEmail && !isPhone) {
+                            return 'Enter a valid Email or Phone (10-digit number)';
+                          }
+                          return null;
+                        },
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          prefixIcon: Icon(
+                            Icons.person_outline_outlined,
+                            color: Color.fromARGB(255, 16, 82, 20),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              isPasswordVisible = !isPasswordVisible;
-                            });
-                          },
-                        ),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                          hintText: 'Email/Phone Number',
+                          border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0)),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        fixedSize: Size.fromWidth(width),
-                        side: const BorderSide(
-                          color: Color.fromARGB(255, 70, 146, 72),
-                        ),
-                        backgroundColor: Colors.green,
-                      ),
-                      onPressed: login,
-                      child: isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                                color: Colors.white,
-                              ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter this field';
+                          }
+                          return null;
+                        },
+                        controller: passController,
+                        obscureText:
+                            !isPasswordVisible, // Toggle password visibility
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: 'Password',
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: Color.fromARGB(255, 16, 82, 20),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                             ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SigninPage()),
-                        );
-                      },
-                      child: const Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: 'Don\'t have an account? '),
-                            TextSpan(
-                              text: 'SignUp',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 34, 61, 35),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                          ),
+                          border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.0)),
+                          ),
                         ),
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          fixedSize: Size.fromWidth(width),
+                          side: const BorderSide(
+                            color: Color.fromARGB(255, 70, 146, 72),
+                          ),
+                          backgroundColor: Colors.green,
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            login;
+                          }
+                        },
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text(
+                                'LOGIN',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SigninPage()),
+                          );
+                        },
+                        child: const Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(text: 'Don\'t have an account? '),
+                              TextSpan(
+                                text: 'SignUp',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 34, 61, 35),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

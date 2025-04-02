@@ -21,7 +21,7 @@ class _HistoryPageState extends State<HistoryPage> {
   int? userId;
   bool? isCompleted;
   bool? isNotCompleted;
-  String? status; 
+  String? status;
   //  bool isCompleted = payment['status'] == 'Completed';
   // bool isNotCompleted=payment['status'] == 'pending';
 
@@ -75,31 +75,33 @@ class _HistoryPageState extends State<HistoryPage> {
         ),
         centerTitle: true,
         leading: IconButton(
-  onPressed: () async {
-    await getDetails(); // Ensure data is fetched before proceeding
+          onPressed: () async {
+            await getDetails(); // Ensure data is fetched before proceeding
 
-    if (paymentHistory.isNotEmpty) {
-      bool hasCompleted = paymentHistory.any((payment) => payment['status'] == 'Completed');
-      bool hasNotCompleted = paymentHistory.any((payment) => payment['status'] == 'pending');
+            if (paymentHistory.isNotEmpty) {
+              bool hasCompleted = paymentHistory
+                  .any((payment) => payment['status'] == 'Completed');
+              bool hasNotCompleted = paymentHistory
+                  .any((payment) => payment['status'] == 'pending');
 
-      String latestStatus = paymentHistory.first['status']; // Get latest status
+              String latestStatus =
+                  paymentHistory.first['status']; // Get latest status
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            isCompleted: hasCompleted,
-            isNotCompleted: hasNotCompleted,
-            status: latestStatus, // Pass the current status
-            userId: userId,
-          ),
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(
+                    isCompleted: hasCompleted,
+                    isNotCompleted: hasNotCompleted,
+                    status: latestStatus, // Pass the current status
+                    userId: userId,
+                  ),
+                ),
+              );
+            }
+          },
+          icon: Icon(Icons.arrow_back, size: 20.sp, color: Colors.white),
         ),
-      );
-    }
-  },
-  icon: Icon(Icons.arrow_back, size: 20.sp, color: Colors.white),
-),
-
       ),
       body: Padding(
         padding: EdgeInsets.all(16.w),

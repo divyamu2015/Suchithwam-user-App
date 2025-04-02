@@ -172,21 +172,65 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    _buildTextField(nameController, "Name on Card"),
-                    _buildTextField(cardNumberController, "Card Number",
-                        keyboardType: TextInputType.number),
+                    _buildTextField(
+                      nameController,
+                      "Name on Card",
+                      validator: (value) => (value == null || value.isEmpty)
+                          ? 'Fill the field'
+                          : null,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    _buildTextField(
+                      cardNumberController,
+                      "Card Number",
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter card number';
+                        }
+                        if (value.length != 16 &&
+                            !RegExp(r'^\d{16}$').hasMatch(value)) {
+                          return 'Enter a valid 16-digit card number';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     Row(
                       children: [
                         Expanded(
                           child: _buildTextField(
-                              expiryDateController, "Expiry Date",
-                              keyboardType: TextInputType.datetime),
+                            expiryDateController,
+                            "Expiry Date",
+                            keyboardType: TextInputType.datetime,
+                            validator: (value) =>
+                                (value == null || value.isEmpty)
+                                    ? 'Fill the field'
+                                    : null,
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: _buildTextField(cvvController, "CVV",
-                              obscureText: true,
-                              keyboardType: TextInputType.number),
+                          child: _buildTextField(
+                            cvvController,
+                            "CVV",
+                            obscureText: true,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Enter CVV number';
+                              }
+                              if (value.length != 3 &&
+                                  !RegExp(r'^\d{3}$').hasMatch(value)) {
+                                return 'Enter a valid 3-digit CVV number';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -219,8 +263,13 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label,
-      {bool obscureText = false, TextInputType? keyboardType}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label, {
+    bool obscureText = false,
+    TextInputType? keyboardType,
+    String? Function(String?)? validator,
+  }) {
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
@@ -229,8 +278,9 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
-      validator: (value) =>
-          (value == null || value.isEmpty) ? 'Fill the field' : null,
+      validator: validator,
+      // validator: (value) =>
+      //     (value == null || value.isEmpty) ? 'Fill the field' : null,
     );
   }
 }
